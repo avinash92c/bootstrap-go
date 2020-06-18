@@ -1,5 +1,8 @@
 package foundation
 
+//TODO ADD LRU,LFU OPTIONS,REMOVE PLACEHOLDER STATIC CACHEMAP
+//TODO ENSURE CONCURRENCY SAFE
+
 //STATIC CACHEMAP IN-MEMORY
 var (
 	staticcachemap = make(map[string]interface{})

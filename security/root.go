@@ -15,6 +15,10 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
+//TODO MAKE UTILITY OF THIS
+//TODO configurable token timeout
+//TODO configurable hash secret
+
 var (
 	memory                 uint32 = 64 * 1024
 	iterations             uint32 = 3
@@ -24,7 +28,7 @@ var (
 	errInvalidHash                = errors.New("the encoded hash is not in the correct format")
 	errIncompatibleVersion        = errors.New("incompatible version of argon2")
 
-	tokensecret = "chittils"
+	tokensecret = "chittils" //TODO MAKE CONFIGURABLE
 )
 
 type params struct {
@@ -80,7 +84,7 @@ func TokenCheck(next http.Handler) http.Handler {
 			token = cookie.Value
 		}
 
-		valid, err := validateToken(&token) //VALIDATES AND RENEWS
+		valid, err := ValidateToken(&token) //VALIDATES AND RENEWS
 		if err != nil {
 			http.Error(w, "Authentication Failure", http.StatusUnauthorized)
 			return
@@ -253,12 +257,14 @@ func randomString(len int) string {
 	return string(bytes)
 }
 
+// Claims jwt claims container
 type Claims struct {
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
-func generateToken(username string) (string, error) {
+// GenerateToken generates a JWT token with a configured token secret
+func GenerateToken(username string) (string, error) {
 	claims := Claims{
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
@@ -273,7 +279,8 @@ func generateToken(username string) (string, error) {
 	return tokenString, nil
 }
 
-func validateToken(token *string) (bool, error) {
+// ValidateToken validates an input token and tries to renew a token if close to expiring
+func ValidateToken(token *string) (bool, error) {
 	claims := &Claims{}
 	tokenparsed, err := jwt.ParseWithClaims(*token, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(tokensecret), nil
