@@ -13,6 +13,7 @@ Environment Variables
 | REMOTE_CONFIG_KEYRING | Remote config store security keyring |
 
 Config Store - Reads Configuration Data from Configured Config Store, File or Remote. Define key in format compliant with format of your choice
-|CONFIG NAME|Type|Description|Accepted Values
-|db.enable|Database Properties|Enable or Disable Bootstrap InBuilt Database Pool|Y/N
-|
+| CONFIG NAME | Description | Accepted Values |
+| --------- | ----------- | --------------- |
+| db.enable | Database Properties | Enable or Disable Bootstrap InBuilt Database Pool | Y/N |
+
