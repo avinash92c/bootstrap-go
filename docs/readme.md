@@ -2,11 +2,11 @@ Usage Guide & Features Guide
 
 - Subject to update as library develops toward v1 release
 
-`
+``` go
 import (
-	rest "gokit/testappsvcliv/internal/rest"
-	cmd "github.com/avinash92c/bootstrap-go"
-	bsrest "github.com/avinash92c/bootstrap-go/rest"
+	rest "gokit/testappsvcliv/internal/rest" 
+	cmd "github.com/avinash92c/bootstrap-go" 
+	bsrest "github.com/avinash92c/bootstrap-go/rest" 
 )
 
 //Init function
@@ -16,9 +16,9 @@ func Init() {
 	rest.DeclareRoutes(routeEngine)
 	cmd.StartServer(appsvr, router)
 }
-`
 
-`
+
+
 package rest
 
 import (
@@ -39,4 +39,4 @@ func sampleHandler(appsvr *bootstrapmodel.AppServer, w http.ResponseWriter, r *h
 	w.WriteHeader(http.StatusOK)
 }
 
-`
+```
