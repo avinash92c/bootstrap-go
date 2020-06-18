@@ -99,6 +99,7 @@ func TokenCheck(next http.Handler) http.Handler {
 			Value:   token,
 			Expires: tokenexpirationTime(),
 		})
+		r.Header.Set("token", token)
 		next.ServeHTTP(w, r)
 	})
 }
