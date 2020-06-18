@@ -13,7 +13,11 @@ Environment Variables
 | REMOTE_CONFIG_KEYRING | Remote config store security keyring |
 
 Config Store - Reads Configuration Data from Configured Config Store, File or Remote. Define key in format compliant with format of your choice
-| CONFIG NAME | Description | Accepted Values |
+| Type | CONFIG NAME | Description | Accepted Values |
 | --------- | ----------- | --------------- |
-| db.enable | Database Properties | Enable or Disable Bootstrap InBuilt Database Pool | Y/N |
-
+| Database Properties | db.enable | Enable or Disable Bootstrap InBuilt Database Pool | Y/N |
+| Database Properties | db.driver | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql |
+| Database Properties | db.url | SQL Database Server URL |  |
+| Database Properties | db.max-open | Max Open Database Connections. Default: 5 |  |
+| Database Properties | db.max-idle | Max Idle Database Connections. Default: 5 |  |
+| Database Properties | db.max-timeout | Max Timeout Duration For Database Connections. Default: 2000ms |  |
