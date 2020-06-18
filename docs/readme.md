@@ -1,4 +1,6 @@
 Usage Guide & Features Guide
+ - Configuration Docs
+   [a link](https://github.com/avinash92c/bootstrap-go/blob/master/docs/config/config.md)
 
 - Subject to update as library develops toward v1 release
 
