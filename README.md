@@ -6,7 +6,9 @@ Current features in v1
 - argon2 password encryption
 - jwt support with cookie tokens
 - MySQL and postgres connection pooling
-- file source based config store
+- file source based config store with change watchers
+- remote config store support with change watchers
+   - supported stores etcd,consulkv,firebase
 - Logrus logging support
 - configurable route builder for rest endpoints.
    - currently only secure and insecure route configuration available
@@ -15,6 +17,7 @@ Pending proposed features
 - opentracing support
 - nosql support
 - http based config store with change watcher
-   - pluggable with consul kv, spring cloud config, custom http endpoint  for starters
+   - pluggable with spring cloud config, custom http endpoint  for starters
+   - pluggable custom change watchers
 - additional SQL databases connection pooling support
 - and more
