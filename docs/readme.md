@@ -1,13 +1,15 @@
 Usage Guide & Features Guide
- - [Configuration Docs](https://github.com/avinash92c/bootstrap-go/blob/master/docs/config/config.md)
+
+- [Configuration Docs](https://github.com/avinash92c/bootstrap-go/blob/master/docs/config/config.md)
+- [Diagnostics](https://github.com/avinash92c/bootstrap-go/blob/master/docs/diagnostics/config.md)
 
 - Subject to update as library develops toward v1 release
 
-``` go
+```go
 import (
-	rest "gokit/testappsvcliv/internal/rest" 
-	cmd "github.com/avinash92c/bootstrap-go" 
-	bsrest "github.com/avinash92c/bootstrap-go/rest" 
+	rest "gokit/testappsvcliv/internal/rest"
+	cmd "github.com/avinash92c/bootstrap-go"
+	bsrest "github.com/avinash92c/bootstrap-go/rest"
 )
 
 //Init function

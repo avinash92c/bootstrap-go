@@ -16,9 +16,9 @@ import (
 	"github.com/avinash92c/bootstrap-go/database"
 	"github.com/avinash92c/bootstrap-go/foundation"
 	"github.com/avinash92c/bootstrap-go/model"
+	"github.com/avinash92c/bootstrap-go/rest"
 
 	"github.com/gorilla/mux"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 
 	//DB DRIVERS
@@ -28,7 +28,7 @@ import (
 
 var (
 	serverport   = 8080
-	writeTimeout = time.Second * 15
+	writeTimeout = time.Second * 30
 	readTimeout  = time.Second * 15
 	idleTimeout  = time.Second * 60
 	logger       foundation.Logger
@@ -58,7 +58,8 @@ func Init() (*model.AppServer, *model.Router) {
 	appsvr := model.NewAppServer(serviceName, db, config, logger)
 	baserouter := model.NewRouter()
 
-	registerRoutes(baserouter)
+	rest.RegisterTelemetryRoutes(baserouter)
+	rest.RegisterProfRoutes(baserouter)
 
 	baserouter.MakeAppRouter("/app") //OVERRIDE BASE ROUTER WITH SUBROUTER
 
@@ -83,11 +84,6 @@ func handleSigterm(handleExit func()) {
 		handleExit()
 		os.Exit(1)
 	}()
-}
-
-func registerRoutes(router *model.Router) {
-	router.Router.Handle("/metrics", promhttp.Handler())
-	router.Router.Path("/health").HandlerFunc(healthCheck).Methods("GET")
 }
 
 //StartServer Post PreConfigurations
@@ -132,11 +128,6 @@ func startGRPCServer(appserver *model.AppServer) {
 		logger.Error("Failed To Start")
 	}
 	logger.Info("Started Server")
-}
-
-func healthCheck(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, `{"status":"UP"}`)
 }
 
 func printRoutes(r *mux.Router) {

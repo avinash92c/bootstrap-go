@@ -29,9 +29,9 @@ Config Store - Reads Configuration Data from Configured Config Store, File or Re
 
 - Logging Properties
 
-  | CONFIG NAME               | Description                                                               | Accepted Values                                                     |
-  | ------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-  | logging.level             | Logging Level                                                             | info/error/debug/warn/fatal                                         |
-  | logging.formatter.name    | LogData Formatting                                                        | json/text                                                           |
-  | logging.formatter.options | [Formatting Options](https://github.com/heralight/logrus_mate#formatters) |                                                                     |
-  | logging.hooks             | [Hooks for Emitting Data](https://github.com/heralight/logrus_mate#hooks) | Currently Supported: graylog/logstash/file/syslog/filewithformatter |
+  | CONFIG NAME               | Description                                                               | Accepted Values                            |
+  | ------------------------- | ------------------------------------------------------------------------- | ------------------------------------------ |
+  | logging.level             | Logging Level                                                             | info/error/debug/warn/fatal                |
+  | logging.formatter.name    | LogData Formatting                                                        | json/text                                  |
+  | logging.formatter.options | [Formatting Options](https://github.com/heralight/logrus_mate#formatters) |                                            |
+  | logging.hooks             | [Hooks for Emitting Data](https://github.com/heralight/logrus_mate#hooks) | Currently Supported: graylog/logstash/file |

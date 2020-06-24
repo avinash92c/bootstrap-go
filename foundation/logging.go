@@ -10,10 +10,10 @@ import (
 
 	//HOOKS FOR APPENDERS
 	_ "github.com/heralight/logrus_mate/hooks/file"
-	_ "github.com/heralight/logrus_mate/hooks/filewithformatter"
 	_ "github.com/heralight/logrus_mate/hooks/graylog"
-	_ "github.com/heralight/logrus_mate/hooks/logstash"
-	_ "github.com/heralight/logrus_mate/hooks/syslog"
+
+	// _ "github.com/heralight/logrus_mate/hooks/logstash"
+	_ "github.com/avinash92c/bootstrap-go/foundation/hooks"
 )
 
 var (
