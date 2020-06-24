@@ -8,6 +8,8 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -27,8 +29,7 @@ var (
 	keyLength              uint32 = 32
 	errInvalidHash                = errors.New("the encoded hash is not in the correct format")
 	errIncompatibleVersion        = errors.New("incompatible version of argon2")
-
-	tokensecret = "chittils" //TODO MAKE CONFIGURABLE
+	defaulttokentimeout           = time.Now().Add(1 * time.Minute)
 )
 
 type params struct {
@@ -273,7 +274,7 @@ func GenerateToken(username string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(tokensecret))
+	tokenString, err := token.SignedString([]byte(tokensecret()))
 	if err != nil {
 		return "", err
 	}
@@ -284,7 +285,7 @@ func GenerateToken(username string) (string, error) {
 func ValidateToken(token *string) (bool, error) {
 	claims := &Claims{}
 	tokenparsed, err := jwt.ParseWithClaims(*token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(tokensecret), nil
+		return []byte(tokensecret()), nil
 	})
 	if err != nil {
 		return false, err
@@ -296,7 +297,7 @@ func ValidateToken(token *string) (bool, error) {
 	if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 30*time.Second { //IF TOKEN EXPIRES IN LESS THAN 30 SECONDS //RENEW IT for ANOTHER N Minutes
 		claims.ExpiresAt = tokenexpirationTime().Unix()
 		tokenobj := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		newtoken, err := tokenobj.SignedString([]byte(tokensecret))
+		newtoken, err := tokenobj.SignedString([]byte(tokensecret()))
 		if err != nil {
 			//FAILED TO RENEW TOKEN
 			log.Println("Failed to renew token", err)
@@ -309,5 +310,22 @@ func ValidateToken(token *string) (bool, error) {
 }
 
 func tokenexpirationTime() time.Time {
-	return time.Now().Add(1 * time.Minute)
+	tokenexpiry := os.Getenv("ENC_TOKEN_EXPIRY") //IN MILLISECONDS
+	if len(strings.Trim(tokenexpiry, "")) > 0 {
+		timeout, err := strconv.Atoi(tokenexpiry)
+		if err != nil {
+			log.Println(err)
+			return defaulttokentimeout //DEFAULTING
+		}
+		return time.Now().Add(time.Duration(timeout) * time.Millisecond)
+	}
+	return defaulttokentimeout //DEFAULTING
+}
+
+func tokensecret() string {
+	tokensecret := os.Getenv("ENC_SECRET_KEY")
+	if len(strings.Trim(tokensecret, "")) == 0 {
+		return "dummy" //PREFERABLY YOU DON'T WANT THIS UNLESS YOU DON'T NEED THIS SECURITY PACKAGE
+	}
+	return tokensecret
 }
