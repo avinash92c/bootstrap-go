@@ -1,0 +1,23 @@
+app:
+  port: 80
+  name: testappsvcliv
+db:
+  enable: "N"
+  driver: pgx
+  url: postgres://postgres:postpass@localhost/pqgotest
+  max-open: 5
+  max-idle: 0
+  max-timeout: 100ms
+logging:
+  level: debug
+  formatter:
+    name: json
+  hooks:
+    - name: file
+      options:
+        filename: "/tmp/app.log"
+        maxsize: 5000
+        maxdays: 1
+        rotate: true
+        priorty: LOG_INFO
+        tag:
