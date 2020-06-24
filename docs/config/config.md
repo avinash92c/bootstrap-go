@@ -3,7 +3,7 @@ Listed all available configuration parameters here
 Environment Variables
 | CONFIG NAME | Description | Accepted Values |
 | --------- | ----------- | --------------- |
-| CONFIG_TYPE | localfile or remote | 
+| CONFIG_TYPE | localfile or remote |
 | CONFIG_FORMAT | supported formats JSON, TOML, YAML, HCL, envfile and Java properties config |
 | ENV_CONFIG_PREFIX | Prefix for environment variables to make available in app |
 | REMOTE_CONFIG_SECURE | Secure Remote config fetch enable/disable|Y/N| | Y/N |
@@ -14,11 +14,22 @@ Environment Variables
 
 Config Store - Reads Configuration Data from Configured Config Store, File or Remote. Define key in format compliant with format of your choice
 
-| Type | CONFIG NAME | Description | Accepted Values |
-| --------- | ----------- | --------------- | --------------- |
-| Database Properties | db.enable | Enable or Disable Bootstrap InBuilt Database Pool | Y/N |
-| Database Properties | db.driver | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql |
-| Database Properties | db.url | SQL Database Server URL |  |
-| Database Properties | db.max-open | Max Open Database Connections. Default: 5 |  |
-| Database Properties | db.max-idle | Max Idle Database Connections. Default: 5 |  |
-| Database Properties | db.max-timeout | Max Timeout Duration For Database Connections. Default: 2000ms |  |
+- Database Properties
+
+| CONFIG NAME    | Description                                                          | Accepted Values |
+| -------------- | -------------------------------------------------------------------- | --------------- |
+| db.enable      | Enable or Disable Bootstrap InBuilt Database Pool                    | Y/N             |
+| db.driver      | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql       |
+| db.url         | SQL Database Server URL                                              |                 |
+| db.max-open    | Max Open Database Connections. Default: 5                            |                 |
+| db.max-idle    | Max Idle Database Connections. Default: 5                            |                 |
+| db.max-timeout | Max Timeout Duration For Database Connections. Default: 2000ms       |                 |
+
+- Logging Properties
+
+  | CONFIG NAME               | Description                                                               | Accepted Values                                                     |
+  | ------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+  | logging.level             | Logging Level                                                             | info/error/debug/warn/fatal                                         |
+  | logging.formatter.name    | LogData Formatting                                                        | json/text                                                           |
+  | logging.formatter.options | [Formatting Options](https://github.com/heralight/logrus_mate#formatters) |                                                                     |
+  | logging.hooks             | [Hooks for Emitting Data](https://github.com/heralight/logrus_mate#hooks) | Currently Supported: graylog/logstash/file/syslog/filewithformatter |
