@@ -13,16 +13,17 @@ Current features in v1
   - supported stores etcd,consulkv,firebase
 - Logrus logging support with following hooks
   - File
-  - File With Formatting
   - Graylog
-  - Syslog
   - Logstash
 - configurable route builder for rest endpoints.
   - currently only secure and insecure route configuration available
+- Profiling With PProf Http Endpoints. Refer Docs
 
 Pending proposed features
 
 - opentracing support
+- caching local + remote
+- opentelemetry support
 - nosql support
 - http based config store with change watcher
   - pluggable with spring cloud config, custom http endpoint for starters
