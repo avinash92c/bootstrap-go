@@ -6,7 +6,7 @@ Environment Variables
 | CONFIG_TYPE | localfile or remote |
 | CONFIG_FORMAT | supported formats JSON, TOML, YAML, HCL, envfile and Java properties config |
 | ENC_SECRET_KEY | Secret Key for Encryption. To Be Set as Environment Variable.Ignore Setting this if you dont want the security filters & utilities bundled in this library |
-| ENC_TOKEN_EXPIRY | JWT Token Expiry Timeout. To Be Set as Environment Variable.Ignore Setting this if you want the default of 1 minute |
+| ENC_TOKEN_EXPIRY | JWT Token Expiry Timeout. Value in Milliseconds. To Be Set as Environment Variable.Ignore Setting this if you want the default of 1 minute |
 | ENV_CONFIG_PREFIX | Prefix for environment variables to make available in app |
 | REMOTE_CONFIG_SECURE | Secure Remote config fetch enable/disable|Y/N| | Y/N |
 | REMOTE_CONFIG_STORE | Type of Remote Config store | etcd/consul/firebase |
