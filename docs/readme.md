@@ -2,6 +2,7 @@ Usage Guide & Features Guide
 
 - [Configuration Docs](https://github.com/avinash92c/bootstrap-go/blob/master/docs/config/config.md)
 - [Diagnostics](https://github.com/avinash92c/bootstrap-go/blob/master/docs/diagnostics/readme.md)
+- [User Guide]()
 
 - Subject to update as library develops toward v1 release
 

@@ -5,6 +5,6 @@ func Init(configpath string) (ConfigStore, Logger) {
 	configstore := initConfig(configpath)
 	logger := initLogging()
 	// InitTracer(configstore)
-	initcache()
+	// initcache()
 	return configstore, logger
 }

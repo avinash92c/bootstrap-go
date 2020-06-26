@@ -28,22 +28,25 @@ func initConfig(configpath string) ConfigStore {
 //TODO REWRITE TO FIT REMOTE CONFIG & STARTUP CONFIG
 func initFileConfig(configpath, envprefix, cfgformat string) ConfigStore {
 	log.Println("Initializing Config Store")
+	log.Println("Reading Config From ", configpath)
 
 	vcfg = viper.New()
 	vcfg.AutomaticEnv()
 	vcfg.SetConfigName("app") //name of config file without extension
-	// vcfg.AddConfigPath("./config")
 	vcfg.AddConfigPath(configpath)
-	vcfg.SetConfigType("yaml")
+
+	if len(strings.Trim(cfgformat, "")) > 0 {
+		vcfg.SetConfigType(cfgformat)
+	} else {
+		vcfg.SetConfigType("yaml")
+	}
+
 	vcfg.AddConfigPath(".")    //optionally look for config in working directory
 	err := vcfg.ReadInConfig() //find and read config file
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s ", err))
 	}
 	vcfg.WatchConfig()
-	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s", err))
-	}
 
 	config = &configstore{
 		vcfg: vcfg,
@@ -77,7 +80,8 @@ func initRemoteConfig(envprefix, cfgformat string) ConfigStore {
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
-	vcfg.WatchRemoteConfig()
+
+	err = vcfg.WatchRemoteConfig()
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
@@ -107,6 +111,7 @@ func GetConfigStore() ConfigStore {
 
 // ConfigStore functions
 type ConfigStore interface {
+	Get(key string) interface{}
 	GetConfig(key string) interface{}
 	GetConfigX(key string, defaultvalue interface{}) interface{}
 	/*TBD LATER
@@ -114,6 +119,10 @@ type ConfigStore interface {
 	GetConfigAsFloatX(key string,defaultvalue float) float
 	GetConfigAsBooleanX(key string,defaultvalue bool) bool
 	*/
+}
+
+func (config configstore) Get(key string) interface{} {
+	return config.GetConfig(key)
 }
 
 func (config configstore) GetConfig(key string) interface{} {
