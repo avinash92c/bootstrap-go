@@ -1,4 +1,4 @@
-package bootstrap-go
+package bootstrap
 
 import (
 	"context"
