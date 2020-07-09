@@ -18,14 +18,14 @@ Config Store - Reads Configuration Data from Configured Config Store, File or Re
 
 - Database Properties
 
-| CONFIG NAME    | Description                                                          | Accepted Values |
-| -------------- | -------------------------------------------------------------------- | --------------- |
-| db.enable      | Enable or Disable Bootstrap InBuilt Database Pool                    | Y/N             |
-| db.driver      | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql       |
-| db.url         | SQL Database Server URL                                              |                 |
-| db.max-open    | Max Open Database Connections. Default: 5                            |                 |
-| db.max-idle    | Max Idle Database Connections. Default: 5                            |                 |
-| db.max-timeout | Max Timeout Duration For Database Connections. Default: 2000ms       |                 |
+| CONFIG NAME       | Description                                                          | Accepted Values |
+| ----------------- | -------------------------------------------------------------------- | --------------- |
+| boostrapdb.enable | Enable or Disable Bootstrap InBuilt Database Pool                    | Y/N             |
+| db.driver         | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql       |
+| db.url            | SQL Database Server URL                                              |                 |
+| db.max-open       | Max Open Database Connections. Default: 5                            |                 |
+| db.max-idle       | Max Idle Database Connections. Default: 5                            |                 |
+| db.max-timeout    | Max Timeout Duration For Database Connections. Default: 2000ms       |                 |
 
 - Logging Properties
 

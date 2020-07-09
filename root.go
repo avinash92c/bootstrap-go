@@ -35,8 +35,8 @@ var (
 	config       foundation.ConfigStore
 
 	// FOR GRACEFUL SHUTDOWN OF APP
-	server *http.Server
-
+	server     *http.Server
+	db         *database.DB
 	configpath *string
 )
 
@@ -51,7 +51,7 @@ func Init() (*model.AppServer, *model.Router) {
 
 	config, logger = foundation.Init(*configpath)
 	// foundation.InitTracer(config) //TODO MODIFY FOR ON\OFF FLAG
-	db := database.GetConnectionPool(config)
+	db = database.GetConnectionPool(config)
 
 	serviceName := config.GetConfig("app.name").(string)
 
@@ -67,6 +67,10 @@ func Init() (*model.AppServer, *model.Router) {
 		//TODO CLEANUP OF RESOURCES
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		defer cancel()
+
+		err := db.DB.Close()
+		logger.ErrorF("Error Occurred %v", err)
+
 		logger.Info("shutting down")
 		server.Shutdown(ctx)
 	})

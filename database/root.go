@@ -17,7 +17,7 @@ type DatabaseService interface{}
 
 //GetConnectionPool creates a connection pool and returns accessor to it
 func GetConnectionPool(config foundation.ConfigStore) *DB {
-	enabled := config.GetConfig("db.enable").(string)
+	enabled := config.GetConfig("boostrapdb.enable").(string)
 	if strings.EqualFold(enabled, "Y") {
 		driver := config.GetConfig("db.driver").(string)
 		url := config.GetConfig("db.url").(string)
@@ -42,4 +42,9 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 	}
 	logger.Info("Bootstrap DB Connection Pool Disabled SuccessFully")
 	return &DB{DB: nil}
+}
+
+// ShutdownPool Shuts down Connection Pool
+func ShutdownPool(db *DB) error {
+	return db.DB.Close()
 }
