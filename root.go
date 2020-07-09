@@ -68,7 +68,7 @@ func Init() (*model.AppServer, *model.Router) {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		defer cancel()
 
-		err := db.DB.Close()
+		err := database.ShutdownPool(db)
 		logger.ErrorF("Error Occurred %v", err)
 
 		logger.Info("shutting down")
