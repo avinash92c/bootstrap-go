@@ -1,7 +1,7 @@
 # bootstrap-go
 
-[API-DOCS](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
-[USAGE-DOCS](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
+- [API-DOCS](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
+- [USAGE-DOCS](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
 go application bootstrap library to quickstart your application development while the library sets up everything your application needs to be 12factor compliant
 This is a wip library with more features coming.
