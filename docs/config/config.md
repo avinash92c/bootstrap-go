@@ -17,15 +17,19 @@ Environment Variables
 Config Store - Reads Configuration Data from Configured Config Store, File or Remote. Define key in format compliant with format of your choice
 
 - Database Properties
+  Database Connection Url Password Can be Encrypted with AES 256Bit Encryption.
+  Connection Url Pattern: postgres://postgres:ENC(ad96dd914ac41603dadf0fedeace549c89f7227ff9e7e3282a30af5a6a2a0fea8160695e24444f68)@localhost/pqgotest
+  You Can use the supplied random secret key generation function for better security. Refer to [Security Docs](https://github.com/avinash92c/bootstrap-go/blob/master/docs/security/readme.md)
 
-| CONFIG NAME       | Description                                                          | Accepted Values |
-| ----------------- | -------------------------------------------------------------------- | --------------- |
-| boostrapdb.enable | Enable or Disable Bootstrap InBuilt Database Pool                    | Y/N             |
-| db.driver         | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql | pgx/mysql       |
-| db.url            | SQL Database Server URL                                              |                 |
-| db.max-open       | Max Open Database Connections. Default: 5                            |                 |
-| db.max-idle       | Max Idle Database Connections. Default: 5                            |                 |
-| db.max-timeout    | Max Timeout Duration For Database Connections. Default: 2000ms       |                 |
+| CONFIG NAME       | Description                                                                                  | Accepted Values |
+| ----------------- | -------------------------------------------------------------------------------------------- | --------------- |
+| boostrapdb.enable | Enable or Disable Bootstrap InBuilt Database Pool                                            | Y/N             |
+| db.driver         | SQL Database Driver.Currently Supporting pgx and go-sql-driver/mysql                         | pgx/mysql       |
+| db.url            | SQL Database Server URL                                                                      |                 |
+| db.max-open       | Max Open Database Connections. Default: 5                                                    |                 |
+| db.max-idle       | Max Idle Database Connections. Default: 5                                                    |                 |
+| db.max-timeout    | Max Timeout Duration For Database Connections. Default: 2000ms                               |                 |
+| boostrapdb.secret | Secret Generated For Password Decryption. Password Should be Wrapped in ENC(<YOUR PASSWORD>) |                 |
 
 - Logging Properties
 

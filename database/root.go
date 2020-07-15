@@ -1,10 +1,12 @@
-package database
+package main
 
 import (
+	"regexp"
 	"strings"
 	"time"
 
 	"github.com/avinash92c/bootstrap-go/foundation"
+	"github.com/avinash92c/bootstrap-go/security"
 	"github.com/jmoiron/sqlx"
 	"github.com/micro/go-micro/v2/logger"
 )
@@ -29,6 +31,11 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 			logger.Warn("Error Parsing Max-Connection-Timeout Configuration. Using Default 2000ms")
 			timeout = 2 * time.Second
 		}
+
+		//DECRYPT AND REGEN DBURL
+		secret := config.GetConfig("boostrapdb.secret").(string)
+		url = processdburl(url, secret)
+
 		db, err := sqlx.Connect(driver, url)
 		if err != nil {
 			logger.Error("Error Connecting to Database")
@@ -47,4 +54,14 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 // ShutdownPool Shuts down Connection Pool
 func ShutdownPool(db *DB) error {
 	return db.DB.Close()
+}
+
+func processdburl(dburl, secret string) string {
+	if strings.Contains(dburl, "ENC(") {
+		regex := regexp.MustCompile(`ENC\((.*)\)`)
+		matches := regex.FindStringSubmatch(dburl)
+		decstr := security.DecryptAES(matches[1], secret)
+		return regex.ReplaceAllString(dburl, decstr)
+	}
+	return dburl
 }

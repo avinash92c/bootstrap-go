@@ -5,6 +5,7 @@ db:
   enable: "N"
   driver: pgx
   url: postgres://postgres:postpass@localhost/pqgotest
+  url: postgres://postgres:ENC(ad96dd914ac41603dadf0fedeace549c89f7227ff9e7e3282a30af5a6a2a0fea8160695e24444f68)@localhost/pqgotest
   max-open: 5
   max-idle: 0
   max-timeout: 100ms
