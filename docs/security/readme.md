@@ -7,4 +7,4 @@ The Library Currently Supports The Following Encryption Algorithms
 
 The Database Connection Password Can be used with AES Encryption.
 For Better Security, Please use the supplied function that generates a random 256bit secret.
-Refer [API-DOCS](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
+Refer [Security-Docs](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/security?tab=doc)
