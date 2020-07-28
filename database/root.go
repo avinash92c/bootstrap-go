@@ -58,7 +58,7 @@ func ShutdownPool(db *DB) error {
 
 func processdburl(dburl, secret string) string {
 	if strings.Contains(dburl, "ENC(") {
-		regex := regexp.MustCompile(`ENC\((.*)\)`)
+		regex := regexp.MustCompile(`ENC\((.*?)\)`)
 		matches := regex.FindStringSubmatch(dburl)
 		decstr := security.DecryptAES(matches[1], secret)
 		return regex.ReplaceAllString(dburl, decstr)
