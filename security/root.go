@@ -151,7 +151,7 @@ func unAuthorizedResponse(w http.ResponseWriter, err error) {
 //PASSWORD GENERATION
 func generateRandomPassword() string {
 	rand.Seed(time.Now().UnixNano())
-	randpwd := randomString(10)
+	randpwd := RandomString(10)
 	log.Println("Generated Password:", randpwd)
 	hash, err := GenerateFromPassword(randpwd)
 	if err != nil {
@@ -210,8 +210,8 @@ func randomInt(min, max int) int {
 	return min + rand.Intn(max-min)
 }
 
-// Generate a random string of A-Z chars with len = l
-func randomString(len int) string {
+//RandomString Generates a random string of A-Z chars with len = l
+func RandomString(len int) string {
 	bytes := make([]byte, len)
 	for i := 0; i < len; i++ {
 		bytes[i] = byte(randomInt(65, 90))

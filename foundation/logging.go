@@ -2,6 +2,9 @@ package foundation
 
 import (
 	"log"
+	"math/rand"
+	"os"
+	"time"
 
 	"github.com/heirko/go-contrib/logrusHelper"
 	mate "github.com/heralight/logrus_mate"
@@ -14,6 +17,7 @@ import (
 
 	// _ "github.com/heralight/logrus_mate/hooks/logstash"
 	_ "github.com/avinash92c/bootstrap-go/foundation/hooks"
+	"github.com/avinash92c/bootstrap-go/security"
 )
 
 var (
@@ -28,8 +32,16 @@ func initLogging() Logger {
 	conf := unmarshalConfiguration(vcfg) //UnMarshall Configuration From Viper
 	logrusHelper.SetConfig(logInt, conf)
 
+	podname, ok := os.LookupEnv(`CONTAINER_ID`)
+	if !ok {
+		rand.Seed(time.Now().UnixNano())
+		//RANDOM GENERATED ID
+		podname = security.RandomString(15)
+	}
+
 	logger = &logType{
-		log: logInt,
+		log:         logInt,
+		containerid: podname,
 	}
 	return logger
 }
@@ -51,7 +63,8 @@ func GetLogger() Logger {
 }
 
 type logType struct {
-	log *logrus.Logger
+	log         *logrus.Logger
+	containerid string //Docker Container ID Read From Environment Variable
 }
 
 // Logger functions
@@ -70,33 +83,33 @@ type Logger interface {
 }
 
 func (log *logType) Info(args ...interface{}) {
-	log.log.Infoln(args...)
+	log.log.WithField(`container`, log.containerid).Infoln(args...)
 }
 func (log *logType) Warn(args ...interface{}) {
-	log.log.Warnln(args...)
+	log.log.WithField(`container`, log.containerid).Warnln(args...)
 }
 func (log *logType) Debug(args ...interface{}) {
-	log.log.Debugln(args...)
+	log.log.WithField(`container`, log.containerid).Debugln(args...)
 }
 func (log *logType) Error(args ...interface{}) {
-	log.log.Errorln(args...)
+	log.log.WithField(`container`, log.containerid).Errorln(args...)
 }
 func (log *logType) Fatal(args ...interface{}) {
-	log.log.Fatalln(args...)
+	log.log.WithField(`container`, log.containerid).Fatalln(args...)
 }
 
 func (log *logType) InfoF(format string, args ...interface{}) {
-	log.log.Infof(format, args...)
+	log.log.WithField(`container`, log.containerid).Infof(format, args...)
 }
 func (log *logType) WarnF(format string, args ...interface{}) {
-	log.log.Warnf(format, args...)
+	log.log.WithField(`container`, log.containerid).Warnf(format, args...)
 }
 func (log *logType) DebugF(format string, args ...interface{}) {
-	log.log.Debugf(format, args...)
+	log.log.WithField(`container`, log.containerid).Debugf(format, args...)
 }
 func (log *logType) ErrorF(format string, args ...interface{}) {
-	log.log.Errorf(format, args...)
+	log.log.WithField(`container`, log.containerid).Errorf(format, args...)
 }
 func (log *logType) FatalF(format string, args ...interface{}) {
-	log.log.Fatalf(format, args...)
+	log.log.WithField(`container`, log.containerid).Fatalf(format, args...)
 }

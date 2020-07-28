@@ -13,6 +13,7 @@ Environment Variables
 | REMOTE_CONFIG_HOST | Host address of remote config store |
 | REMOTE_CONFIG_KEY | Remote config key |
 | REMOTE_CONFIG_KEYRING | Remote config store security keyring |
+| CONTAINER_ID | Unique Container ID Generated For a Replica On Cloud. If None Supplied, A Random ID Will be Generated |
 
 Config Store - Reads Configuration Data from Configured Config Store, File or Remote. Define key in format compliant with format of your choice
 
