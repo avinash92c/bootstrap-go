@@ -11,7 +11,7 @@ import (
 
 //RoutingEngine interface defines interfaces for configuring rest routes
 type RoutingEngine interface {
-	BuildRoute(path, method string, secure bool, handler Handler)
+	BuildRoute(path string, secure bool, handler Handler, method ...string)
 	GenerateRouteHandler(handler Handler, secure bool) http.Handler
 	TracingMiddleware(next http.Handler) http.Handler
 }
@@ -26,8 +26,8 @@ type routingengine struct {
 	appserver *model.AppServer
 }
 
-func (routeEngine *routingengine) BuildRoute(path, method string, secure bool, handler Handler) {
-	routeEngine.router.AppRouter.Path(path).Handler(routeEngine.GenerateRouteHandler(handler, secure)).Methods(method)
+func (routeEngine *routingengine) BuildRoute(path string, secure bool, handler Handler, method ...string) {
+	routeEngine.router.AppRouter.Path(path).Handler(routeEngine.GenerateRouteHandler(handler, secure)).Methods(method...)
 }
 
 //generateRoute configures your route with requested middleware and some standard middleware

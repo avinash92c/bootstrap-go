@@ -12,7 +12,8 @@ import (
 )
 
 type DB struct {
-	DB *sqlx.DB
+	DB      *sqlx.DB
+	Enabled bool
 }
 
 type DatabaseService interface{}
@@ -45,15 +46,18 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 		db.SetMaxOpenConns(maxopen)
 		db.SetConnMaxLifetime(timeout)
 		logger.Info("DB Connection Pool Initialized SuccessFully")
-		return &DB{DB: db}
+		return &DB{DB: db, Enabled: true}
 	}
 	logger.Info("Bootstrap DB Connection Pool Disabled SuccessFully")
-	return &DB{DB: nil}
+	return &DB{DB: nil, Enabled: false}
 }
 
 // ShutdownPool Shuts down Connection Pool
 func ShutdownPool(db *DB) error {
-	return db.DB.Close()
+	if db.Enabled {
+		return db.DB.Close()
+	}
+	return nil
 }
 
 func processdburl(dburl, secret string) string {
