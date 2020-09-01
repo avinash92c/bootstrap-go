@@ -5,8 +5,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/avinash92c/bootstrap-go/blob/master/LICENSE)
 [![Documentation](https://img.shields.io/badge/Usage-Docs-blue)](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
-- [USAGE-DOCS](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
-
 go application bootstrap library to quickstart your application development while the library sets up everything your application needs to be 12factor compliant
 This is a wip library with more features coming.
 
