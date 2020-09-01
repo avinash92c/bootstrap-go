@@ -3,7 +3,7 @@
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org)
 [![GoDoc](https://godoc.org/github.com/sirupsen/logrus?status.svg)](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/avinash92c/bootstrap-go/blob/master/LICENSE)
-[![Documentation](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
+[![Documentation](https://img.shields.io/badge/Usage-Docs-blue)](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
 - [USAGE-DOCS](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
