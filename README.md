@@ -1,6 +1,10 @@
 # bootstrap-go
 
-- [API-DOCS](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
+[![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org)
+[![GoDoc](https://godoc.org/github.com/sirupsen/logrus?status.svg)](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/avinash92c/bootstrap-go/blob/master/LICENSE)
+[![Documentation](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
+
 - [USAGE-DOCS](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
 go application bootstrap library to quickstart your application development while the library sets up everything your application needs to be 12factor compliant
@@ -33,3 +37,7 @@ Pending proposed features
   - pluggable custom change watchers
 - additional SQL databases connection pooling support
 - and more
+
+Known Issues
+
+- Rolling File Logging Hook Not Writing Data to File
