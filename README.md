@@ -11,7 +11,8 @@ This is a wip library with more features coming.
 
 Current features in v1
 
-- argon2 password encryption
+- argon2
+- SHA-256
 - jwt support with cookie tokens
 - MySQL and postgres connection pooling
 - file source based config store with change watchers
