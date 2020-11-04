@@ -3,6 +3,8 @@ package rest
 import (
 	"fmt"
 	"net/http"
+
+	//AUTOIMPORT INBUILT DIAGNOSTICS API
 	_ "net/http/pprof"
 
 	"github.com/avinash92c/bootstrap-go/model"

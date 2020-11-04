@@ -1,9 +1,12 @@
 package foundation
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"os"
+	"runtime"
+	"strings"
 	"time"
 
 	"github.com/heirko/go-contrib/logrusHelper"
@@ -82,34 +85,52 @@ type Logger interface {
 	FatalF(format string, args ...interface{})
 }
 
+func getCallerDetails() (file string, funcname string, line int, found bool) {
+	if pc, file, line, ok := runtime.Caller(3); ok {
+		file = file[strings.LastIndex(file, "/")+1:]
+		funcName := runtime.FuncForPC(pc).Name()
+		return file, funcName, line, true
+	}
+	return "", "", 0, false
+}
+
+func (log *logType) getFields() logrus.Fields {
+	file, funcname, line, ok := getCallerDetails()
+	fields := logrus.Fields{`container`: log.containerid}
+	if ok {
+		fields[`src`] = fmt.Sprintf("%s:%s:%d", file, funcname, line)
+	}
+	return fields
+}
+
 func (log *logType) Info(args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Infoln(args...)
+	log.log.WithFields(log.getFields()).Infoln(args...)
 }
 func (log *logType) Warn(args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Warnln(args...)
+	log.log.WithFields(log.getFields()).Warnln(args...)
 }
 func (log *logType) Debug(args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Debugln(args...)
+	log.log.WithFields(log.getFields()).Debugln(args...)
 }
 func (log *logType) Error(args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Errorln(args...)
+	log.log.WithFields(log.getFields()).Errorln(args...)
 }
 func (log *logType) Fatal(args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Fatalln(args...)
+	log.log.WithFields(log.getFields()).Fatalln(args...)
 }
 
 func (log *logType) InfoF(format string, args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Infof(format, args...)
+	log.log.WithFields(log.getFields()).Infof(format, args...)
 }
 func (log *logType) WarnF(format string, args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Warnf(format, args...)
+	log.log.WithFields(log.getFields()).Warnf(format, args...)
 }
 func (log *logType) DebugF(format string, args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Debugf(format, args...)
+	log.log.WithFields(log.getFields()).Debugf(format, args...)
 }
 func (log *logType) ErrorF(format string, args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Errorf(format, args...)
+	log.log.WithFields(log.getFields()).Errorf(format, args...)
 }
 func (log *logType) FatalF(format string, args ...interface{}) {
-	log.log.WithField(`container`, log.containerid).Fatalf(format, args...)
+	log.log.WithFields(log.getFields()).Fatalf(format, args...)
 }

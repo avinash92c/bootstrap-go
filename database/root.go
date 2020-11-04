@@ -11,12 +11,13 @@ import (
 	"github.com/micro/go-micro/v2/logger"
 )
 
+//DB contains Database Driver
 type DB struct {
 	DB      *sqlx.DB
 	Enabled bool
 }
 
-type DatabaseService interface{}
+// type DatabaseService interface{}
 
 //GetConnectionPool creates a connection pool and returns accessor to it
 func GetConnectionPool(config foundation.ConfigStore) *DB {
