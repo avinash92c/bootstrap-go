@@ -2,6 +2,7 @@
 
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org)
 [![GoDoc](https://godoc.org/github.com/sirupsen/logrus?status.svg)](https://pkg.go.dev/github.com/avinash92c/bootstrap-go/?tab=doc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/avinash92c/bootstrap-go)](https://goreportcard.com/report/github.com/avinash92c/bootstrap-go)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/avinash92c/bootstrap-go/blob/master/LICENSE)
 [![Documentation](https://img.shields.io/badge/Usage-Docs-blue)](https://github.com/avinash92c/bootstrap-go/blob/master/docs/readme.md)
 
