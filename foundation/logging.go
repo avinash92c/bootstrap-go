@@ -15,7 +15,7 @@ import (
 	"github.com/spf13/viper"
 
 	//HOOKS FOR APPENDERS
-	_ "github.com/heralight/logrus_mate/hooks/file"
+	// _ "github.com/heralight/logrus_mate/hooks/file"
 	_ "github.com/heralight/logrus_mate/hooks/graylog"
 
 	// _ "github.com/heralight/logrus_mate/hooks/logstash"

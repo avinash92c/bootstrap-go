@@ -26,4 +26,5 @@ require (
 	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9
 	google.golang.org/grpc v1.29.1
 	gopkg.in/gemnasium/logrus-graylog-hook.v2 v2.0.7 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )
