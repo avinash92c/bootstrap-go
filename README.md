@@ -39,5 +39,4 @@ Pending proposed features
 - and more
 
 Known Issues
-
-- Rolling File Logging Hook Not Writing Data to File
+- Some Instances Reported App Freezing During Heavy Load While Using Logstash Plugin. under analysis
