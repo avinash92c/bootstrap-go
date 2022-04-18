@@ -35,9 +35,9 @@ func (routeEngine *routingengine) GenerateRouteHandler(handler Handler, secure b
 	routechain := alice.New()
 	appserver := routeEngine.appserver
 	// routechain = routechain.Append(appserver.TracingMiddleware)
-	if secure { //FOR NOW TO CHECK
-		routechain = routechain.Append(security.TokenCheck)
-	}
+	// if secure { //FOR NOW TO CHECK
+	// 	routechain = routechain.Append(security.TokenCheck)
+	// }
 	return routechain.ThenFunc(generateHandler(appserver, handler))
 }
 

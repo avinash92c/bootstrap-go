@@ -6,7 +6,6 @@ require (
 	github.com/allegro/bigcache v1.2.1
 	github.com/avinash92c/logrus-logstash-async v0.0.2
 	github.com/dgraph-io/ristretto v0.0.2
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/eko/gocache v1.0.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gogap/env_json v0.0.0-20150503135429-86150085ddbe // indirect

@@ -40,3 +40,5 @@ Pending proposed features
 
 Known Issues
 - Some Instances Reported App Freezing During Heavy Load While Using Logstash Plugin. under analysis
+
+Note: Jwt Support Has Been Removed Due to Vulnerability. Will Replace With New Implementation Soon

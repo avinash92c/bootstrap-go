@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
-	"net/http"
+	// "net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	// "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/argon2"
 )
 
@@ -39,70 +39,70 @@ type params struct {
 	keyLength   uint32
 }
 
-//TokenCheck Middleware to secure endpoints
-func TokenCheck(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Reached Handler For Path ", r.URL.Path)
-		// r.Context()
-		// ctx, cancel := context.WithTimeout(r.Context(), time.Second*2)
-		// defer cancel()
-		// r = r.WithContext(ctx)
+// //TokenCheck Middleware to secure endpoints
+// func TokenCheck(next http.Handler) http.Handler {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		log.Println("Reached Handler For Path ", r.URL.Path)
+// 		// r.Context()
+// 		// ctx, cancel := context.WithTimeout(r.Context(), time.Second*2)
+// 		// defer cancel()
+// 		// r = r.WithContext(ctx)
 
-		//SET ANY CONTEXT SPECIFIC VALUES HERE
+// 		//SET ANY CONTEXT SPECIFIC VALUES HERE
 
-		//GET PATH from request and SECURE EVERYTHING but /auth //SIMPLE USECASE
-		/*
-			path := strings.Split(html.EscapeString(r.URL.Path), "/")
-			lastref := path[len(path)-1]
-			if lastref == "auth" { //FORWARD WITHOUT TOKEN CHECK
-				next.ServeHTTP(w, r)
-				return
-			}
-		*/
-		//IDEALLY DO ONLY COOKIE //EASIER TO MANAGE TOKEN RENEWAL
-		// Get token from the Authorization header
-		// format: Authorization: Bearer
-		var token string
-		tokens, ok := r.Header["Authorization"]
-		if ok && len(tokens) >= 1 {
-			token = tokens[0]
-			token = strings.TrimPrefix(token, "Bearer ")
-		} else {
-			//CHECK IN COOKIE
-			cookie, err := r.Cookie("token")
-			if err != nil {
-				if err == http.ErrNoCookie {
-					// If the cookie is not set, return an unauthorized status
-					w.WriteHeader(http.StatusUnauthorized)
-					return
-				}
-				// For any other type of error, return a bad request status
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
+// 		//GET PATH from request and SECURE EVERYTHING but /auth //SIMPLE USECASE
+// 		/*
+// 			path := strings.Split(html.EscapeString(r.URL.Path), "/")
+// 			lastref := path[len(path)-1]
+// 			if lastref == "auth" { //FORWARD WITHOUT TOKEN CHECK
+// 				next.ServeHTTP(w, r)
+// 				return
+// 			}
+// 		*/
+// 		//IDEALLY DO ONLY COOKIE //EASIER TO MANAGE TOKEN RENEWAL
+// 		// Get token from the Authorization header
+// 		// format: Authorization: Bearer
+// 		var token string
+// 		tokens, ok := r.Header["Authorization"]
+// 		if ok && len(tokens) >= 1 {
+// 			token = tokens[0]
+// 			token = strings.TrimPrefix(token, "Bearer ")
+// 		} else {
+// 			//CHECK IN COOKIE
+// 			cookie, err := r.Cookie("token")
+// 			if err != nil {
+// 				if err == http.ErrNoCookie {
+// 					// If the cookie is not set, return an unauthorized status
+// 					w.WriteHeader(http.StatusUnauthorized)
+// 					return
+// 				}
+// 				// For any other type of error, return a bad request status
+// 				w.WriteHeader(http.StatusBadRequest)
+// 				return
+// 			}
 
-			token = cookie.Value
-		}
+// 			token = cookie.Value
+// 		}
 
-		valid, err := ValidateToken(&token) //VALIDATES AND RENEWS
-		if err != nil {
-			http.Error(w, "Authentication Failure", http.StatusUnauthorized)
-			return
-		}
+// 		valid, err := ValidateToken(&token) //VALIDATES AND RENEWS
+// 		if err != nil {
+// 			http.Error(w, "Authentication Failure", http.StatusUnauthorized)
+// 			return
+// 		}
 
-		if !valid {
-			http.Error(w, "Authentication Failure", http.StatusUnauthorized)
-			return
-		}
-		http.SetCookie(w, &http.Cookie{
-			Name:    "token",
-			Value:   token,
-			Expires: tokenexpirationTime(),
-		})
-		r.Header.Set("token", token)
-		next.ServeHTTP(w, r)
-	})
-}
+// 		if !valid {
+// 			http.Error(w, "Authentication Failure", http.StatusUnauthorized)
+// 			return
+// 		}
+// 		http.SetCookie(w, &http.Cookie{
+// 			Name:    "token",
+// 			Value:   token,
+// 			Expires: tokenexpirationTime(),
+// 		})
+// 		r.Header.Set("token", token)
+// 		next.ServeHTTP(w, r)
+// 	})
+// }
 
 //Authentication
 /*
@@ -220,54 +220,54 @@ func RandomString(len int) string {
 }
 
 // Claims jwt claims container
-type Claims struct {
-	Username string `json:"username"`
-	jwt.StandardClaims
-}
+// type Claims struct {
+// 	Username string `json:"username"`
+// 	jwt.StandardClaims
+// }
 
 // GenerateToken generates a JWT token with a configured token secret
-func GenerateToken(username string) (string, error) {
-	claims := Claims{
-		Username: username,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: tokenexpirationTime().Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(tokensecret()))
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
-}
+// func GenerateToken(username string) (string, error) {
+// 	claims := Claims{
+// 		Username: username,
+// 		StandardClaims: jwt.StandardClaims{
+// 			ExpiresAt: tokenexpirationTime().Unix(),
+// 		},
+// 	}
+// 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+// 	tokenString, err := token.SignedString([]byte(tokensecret()))
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	return tokenString, nil
+// }
 
 // ValidateToken validates an input token and tries to renew a token if close to expiring
-func ValidateToken(token *string) (bool, error) {
-	claims := &Claims{}
-	tokenparsed, err := jwt.ParseWithClaims(*token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(tokensecret()), nil
-	})
-	if err != nil {
-		return false, err
-	}
-	if !tokenparsed.Valid {
-		return false, errors.New("Unauthorized")
-	}
+// func ValidateToken(token *string) (bool, error) {
+// 	claims := &Claims{}
+// 	tokenparsed, err := jwt.ParseWithClaims(*token, claims, func(token *jwt.Token) (interface{}, error) {
+// 		return []byte(tokensecret()), nil
+// 	})
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	if !tokenparsed.Valid {
+// 		return false, errors.New("Unauthorized")
+// 	}
 
-	if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 30*time.Second { //IF TOKEN EXPIRES IN LESS THAN 30 SECONDS //RENEW IT for ANOTHER N Minutes
-		claims.ExpiresAt = tokenexpirationTime().Unix()
-		tokenobj := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		newtoken, err := tokenobj.SignedString([]byte(tokensecret()))
-		if err != nil {
-			//FAILED TO RENEW TOKEN
-			log.Println("Failed to renew token", err)
-		} else {
-			*token = newtoken
-		}
-	}
+// 	if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 30*time.Second { //IF TOKEN EXPIRES IN LESS THAN 30 SECONDS //RENEW IT for ANOTHER N Minutes
+// 		claims.ExpiresAt = tokenexpirationTime().Unix()
+// 		tokenobj := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+// 		newtoken, err := tokenobj.SignedString([]byte(tokensecret()))
+// 		if err != nil {
+// 			//FAILED TO RENEW TOKEN
+// 			log.Println("Failed to renew token", err)
+// 		} else {
+// 			*token = newtoken
+// 		}
+// 	}
 
-	return true, nil
-}
+// 	return true, nil
+// }
 
 func tokenexpirationTime() time.Time {
 	tokenexpiry := os.Getenv("ENC_TOKEN_EXPIRY") //IN MILLISECONDS
