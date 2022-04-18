@@ -26,4 +26,5 @@ require (
 	google.golang.org/grpc v1.29.1
 	gopkg.in/gemnasium/logrus-graylog-hook.v2 v2.0.7 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
+	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
