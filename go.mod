@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/allegro/bigcache v1.2.1
-	github.com/bshuster-repo/logrus-logstash-hook v0.4.1
+	github.com/avinash92c/logrus-logstash-async v0.0.2
 	github.com/dgraph-io/ristretto v0.0.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/eko/gocache v1.0.0

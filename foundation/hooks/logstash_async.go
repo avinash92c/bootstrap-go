@@ -2,10 +2,13 @@ package hooks
 
 import (
 	"encoding/json"
+	"net"
+	"log"
 
-	logrus_logstash "github.com/bshuster-repo/logrus-logstash-hook"
 	"github.com/heralight/logrus_mate"
 	"github.com/sirupsen/logrus"
+
+	stash "github.com/avinash92c/logrus-logstash-async"
 )
 
 // LogstashHookConfig configuration struct
@@ -38,13 +41,13 @@ func NewLogstashHook(options logrus_mate.Options) (hook logrus.Hook, err error) 
 		return
 	}
 
-	hook, err = logrus_logstash.NewHookWithFieldsAndPrefix(
-		conf.Protocol,
-		conf.Address,
-		conf.AppName,
-		conf.AlwaysSentFields,
-		conf.Prefix,
-	)
+	conn, err := net.Dial(conf.Protocol, conf.Address)
+	if err != nil {
+		log.Fatal(err)
+		return nil,err
+	}
+	
+	hook = stash.New(conn,stash.DefaultFormatter(logrus.Fields{"app_name": conf.AppName,"always_sent_fields":conf.AlwaysSentFields}))
 
-	return
+	return hook,nil
 }
