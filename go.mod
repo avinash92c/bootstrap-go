@@ -1,6 +1,6 @@
 module github.com/avinash92c/bootstrap-go
 
-go 1.14
+go 1.22
 
 require (
 	github.com/allegro/bigcache v1.2.1
