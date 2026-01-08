@@ -1,6 +1,7 @@
 Usage Guide & Features Guide
 
 - [Configuration Docs](https://github.com/avinash92c/bootstrap-go/blob/master/docs/config/config.md)
+- [Logging](https://github.com/avinash92c/bootstrap-go/blob/master/docs/logging/readme.md)
 - [Diagnostics](https://github.com/avinash92c/bootstrap-go/blob/master/docs/diagnostics/readme.md)
 - [Security](https://github.com/avinash92c/bootstrap-go/blob/master/docs/security/readme.md)
 - [User Guide]()
