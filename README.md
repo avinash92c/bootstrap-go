@@ -39,6 +39,6 @@ Pending proposed features
 - and more
 
 Known Issues
-- Some Instances Reported App Freezing During Heavy Load While Using Logstash Plugin. under analysis
+- Some Instances Reported App Freezing During Heavy Load While Using Logstash Plugin. under analysis - fixed (https://github.com/avinash92c/logrus-logstash-async)
 
 Note: Jwt Support Has Been Removed Due to Vulnerability. Will Replace With New Implementation Soon

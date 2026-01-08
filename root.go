@@ -17,6 +17,7 @@ import (
 	"github.com/avinash92c/bootstrap-go/foundation"
 	"github.com/avinash92c/bootstrap-go/model"
 	"github.com/avinash92c/bootstrap-go/rest"
+	"github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
@@ -45,11 +46,17 @@ func parseFlags() {
 	flag.Parse()
 }
 
-//Init For App Initializations
-func Init() (*model.AppServer, *model.Router) {
+// Init For App Initializations
+func Init(opts ...InitOption) (*model.AppServer, *model.Router) {
 	parseFlags()
 
-	config, logger = foundation.Init(*configpath)
+	cfg := &initConfig{}
+
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	config, logger = foundation.Init(*configpath, cfg.logging)
 	// foundation.InitTracer(config) //TODO MODIFY FOR ON\OFF FLAG
 	db = database.GetConnectionPool(config)
 
@@ -69,9 +76,9 @@ func Init() (*model.AppServer, *model.Router) {
 		defer cancel()
 
 		err := database.ShutdownPool(db)
-		logger.ErrorF("Error Occurred %v", err)
+		logger.ErrorF(context.TODO(), "Error Occurred %v", err)
 
-		logger.Info("shutting down")
+		logger.Info(context.TODO(), "shutting down")
 		server.Shutdown(ctx)
 	})
 
@@ -90,7 +97,7 @@ func handleSigterm(handleExit func()) {
 	}()
 }
 
-//StartServer Post PreConfigurations
+// StartServer Post PreConfigurations
 func StartServer(appserver *model.AppServer, router *model.Router) {
 	//GET CONFIGURED PORT FROM CONFIG //COMMAND LINE FLAG SUPPORT LATER
 	//Priority Order
@@ -99,7 +106,7 @@ func StartServer(appserver *model.AppServer, router *model.Router) {
 	cfgport := config.GetConfig("app.port").(int)
 	if cfgport > 0 {
 		serverport = cfgport
-		logger.InfoF("Starting Server On Port %v", serverport)
+		logger.InfoF(context.TODO(), "Starting Server On Port %v", serverport)
 	}
 
 	// printRoutes(router.Router)
@@ -115,23 +122,23 @@ func StartServer(appserver *model.AppServer, router *model.Router) {
 }
 
 func startGRPCServer(appserver *model.AppServer) {
-	logger.Info("Starting GRPC Server")
+	logger.Info(context.TODO(), "Starting GRPC Server")
 	cfgport := config.GetConfig("app.port").(int)
 	if cfgport > 0 {
 		serverport = cfgport
-		logger.InfoF("Starting Server On Port %v", serverport)
+		logger.InfoF(context.TODO(), "Starting Server On Port %v", serverport)
 	}
 	svrport := fmt.Sprintf(":%v", serverport)
 	listen, err := net.Listen("tcp", svrport)
 	if err != nil {
-		logger.Error(err)
+		logger.Error(context.TODO(), err)
 	}
 	s := grpc.NewServer()
 	// grpcservices.RegisterServices(s) //SERVICE REGISTRY
 	if err := s.Serve(listen); err != nil {
-		logger.Error("Failed To Start")
+		logger.Error(context.TODO(), "Failed To Start")
 	}
-	logger.Info("Started Server")
+	logger.Info(context.TODO(), "Started Server")
 }
 
 func printRoutes(r *mux.Router) {
@@ -140,13 +147,13 @@ func printRoutes(r *mux.Router) {
 		if err != nil {
 			return err
 		}
-		logger.Info("ROUTE:", pathTemplate)
+		logger.Info(context.TODO(), "ROUTE:", pathTemplate)
 		methods, err := route.GetMethods()
 		if err != nil {
 			// return err
-			logger.Error(err)
+			logger.Error(context.TODO(), err)
 		}
-		logger.Info("Methods:", strings.Join(methods, ","))
+		logger.Info(context.TODO(), "Methods:", strings.Join(methods, ","))
 		return nil
 		// return err
 		/*
@@ -165,6 +172,19 @@ func printRoutes(r *mux.Router) {
 		*/
 	})
 	if err != nil {
-		logger.Error(err)
+		logger.Error(context.TODO(), err)
+	}
+}
+
+// REGISTERING HOOKS FROM APPLICATION
+type InitOption func(*initConfig)
+
+type initConfig struct {
+	logging foundation.LoggingOptions
+}
+
+func WithLogHook(h logrus.Hook) InitOption {
+	return func(cfg *initConfig) {
+		cfg.logging.ExtraHooks = append(cfg.logging.ExtraHooks, h)
 	}
 }
