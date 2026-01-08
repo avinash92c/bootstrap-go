@@ -1,6 +1,7 @@
 package foundation
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -25,7 +26,7 @@ func initConfig(configpath string) ConfigStore {
 	return initFileConfig(configpath, envprefix, cfgformat)
 }
 
-//TODO REWRITE TO FIT REMOTE CONFIG & STARTUP CONFIG
+// TODO REWRITE TO FIT REMOTE CONFIG & STARTUP CONFIG
 func initFileConfig(configpath, envprefix, cfgformat string) ConfigStore {
 	log.Println("Initializing Config Store")
 	log.Println("Reading Config From ", configpath)
@@ -126,18 +127,18 @@ func (config configstore) Get(key string) interface{} {
 }
 
 func (config configstore) GetConfig(key string) interface{} {
-	logger.Debug("Requested Key - " + key)
+	logger.Debug(context.TODO(), "Requested Key - "+key)
 	value := config.vcfg.Get(key)
-	logger.Debug(fmt.Sprintf("Requested Key - %s - Value - %v", key, value))
+	logger.Debug(context.TODO(), fmt.Sprintf("Requested Key - %s - Value - %v", key, value))
 	return value
 }
 
 func (config configstore) GetConfigX(key string, defaultvalue interface{}) interface{} {
-	logger.Debug("Requested Key - " + key)
+	logger.Debug(context.TODO(), "Requested Key - "+key)
 	value := defaultvalue
 	if config.vcfg.IsSet(key) {
 		value = config.vcfg.Get(key)
 	}
-	logger.Debug(fmt.Sprintf("Requested Key - %s - Value - %v", key, value))
+	logger.Debug(context.TODO(), fmt.Sprintf("Requested Key - %s - Value - %v", key, value))
 	return value
 }
