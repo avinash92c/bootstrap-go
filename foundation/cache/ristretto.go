@@ -1,23 +1,26 @@
 package cache
 
+//NEEDS FIXING. WORK IN PROGRESS
+
 import (
+	"context"
 	"time"
 
-	"github.com/dgraph-io/ristretto"
-	ekocache "github.com/eko/gocache/cache"
-	"github.com/eko/gocache/store"
+	"github.com/dgraph-io/ristretto/v2"
+	ekocache "github.com/eko/gocache/v3/cache"
+	"github.com/eko/gocache/v3/store"
 )
 
 type ristrettocache struct {
-	cacheManager *ekocache.Cache
+	cacheManager *ekocache.Cache[any]
 }
 
 func newRistrettoCache() CacheStore {
 	return &ristrettocache{cacheManager: configurerisrettocache()}
 }
 
-func configurerisrettocache() *ekocache.Cache {
-	ristrettoCache, err := ristretto.NewCache(&ristretto.Config{
+func configurerisrettocache() *ekocache.Cache[any] {
+	_, err := ristretto.NewCache(&ristretto.Config[string, any]{ //TBD INTERFACE NEEDS TO BE ADJUSTED HERE
 		NumCounters: 1000,
 		MaxCost:     100,
 		BufferItems: 64,
@@ -25,33 +28,37 @@ func configurerisrettocache() *ekocache.Cache {
 	if err != nil {
 		panic(err)
 	}
-	ristrettoStore := store.NewRistretto(ristrettoCache, nil)
-	cacheManager := ekocache.New(ristrettoStore)
+	// ristrettoStore := store.NewRistretto(ristrettoCache, nil) //TBD FIX THIS
+	ristrettoStore := store.NewRistretto(nil, nil)
+	cacheManager := ekocache.New[any](ristrettoStore)
 	return cacheManager
 }
 
-func (rcache *ristrettocache) Get(key string) (interface{}, error) {
-	return rcache.cacheManager.Get(key)
+func (rcache *ristrettocache) Get(ctx context.Context, key string) (interface{}, error) {
+	return rcache.cacheManager.Get(ctx, key)
 }
 
-func (rcache *ristrettocache) Set(key string, value interface{}, options *CacheOptions) error {
-	coptions := &store.Options{Cost: 2} //TEMP DUMMY //CHANGE POST DEFINING OPTIONS RANGE
-	err := rcache.cacheManager.Set(key, value, coptions)
+func (rcache *ristrettocache) Set(ctx context.Context, key string, value interface{}, options *CacheOptions) error {
+	// coptions := &store.Options{Cost: 2} //TEMP DUMMY //CHANGE POST DEFINING OPTIONS RANGE
+	// err := rcache.cacheManager.Set(ctx, key, value, coptions)
+	err := rcache.cacheManager.Set(ctx, key, value, store.WithCost(2))
 	time.Sleep(time.Nanosecond * 100) //Pause to wait `ristretto.processItems` consume from channel
 	return err
 }
 
-func (rcache *ristrettocache) Delete(key string) error {
-	err := rcache.cacheManager.Delete(key)
+func (rcache *ristrettocache) Delete(ctx context.Context, key string) error {
+	err := rcache.cacheManager.Delete(ctx, key)
 	time.Sleep(time.Nanosecond * 1) //Pause to wait `ristretto.processItems` consume from channel
 	return err
 }
 
-func (rcache *ristrettocache) Invalidate(options *CacheOptions) error {
-	coptions := store.InvalidateOptions{}
-	return rcache.cacheManager.Invalidate(coptions)
+func (rcache *ristrettocache) Invalidate(ctx context.Context, options *CacheOptions) error {
+	// coptions := store.InvalidateOptions{}
+	// return rcache.cacheManager.Invalidate(coptions)
+	coptions := store.InvalidateOption(store.WithInvalidateTags([]string{}))
+	return rcache.cacheManager.Invalidate(ctx, coptions)
 }
 
-func (rcache *ristrettocache) Clear() error {
-	return rcache.cacheManager.Clear()
+func (rcache *ristrettocache) Clear(ctx context.Context) error {
+	return rcache.cacheManager.Clear(ctx)
 }

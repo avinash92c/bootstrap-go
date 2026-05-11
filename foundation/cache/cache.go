@@ -1,5 +1,7 @@
 package cache
 
+import "context"
+
 //BELOW IS A FILLER CACHE IMPLEMENTATION, INTERFACE IS PRIORITY
 //TODO ADD LRU,LFU OPTIONS,REMOVE PLACEHOLDER STATIC CACHEMAP
 //TODO ENSURE CONCURRENCY SAFE
@@ -12,11 +14,11 @@ var (
 
 // CacheStore interface
 type CacheStore interface {
-	Get(key string) (interface{}, error)
-	Set(key string, value interface{}, options *CacheOptions) error
-	Delete(key string) error
-	Invalidate(options *CacheOptions) error
-	Clear() error
+	Get(ctx context.Context, key string) (interface{}, error)
+	Set(ctx context.Context, key string, value interface{}, options *CacheOptions) error
+	Delete(ctx context.Context, key string) error
+	Invalidate(ctx context.Context, options *CacheOptions) error
+	Clear(ctx context.Context) error
 	// GetType() string
 }
 
@@ -39,26 +41,26 @@ func GetCache() CacheStore {
 	return cache
 }
 
-func (cache *cachestore) Get(key string) (interface{}, error) {
+func (cache *cachestore) Get(ctx context.Context, key string) (interface{}, error) {
 	return cache.cachemap[key], nil
 }
 
-func (cache *cachestore) Set(key string, value interface{}, options *CacheOptions) error {
+func (cache *cachestore) Set(ctx context.Context, key string, value interface{}, options *CacheOptions) error {
 	cache.cachemap[key] = value
 	return nil
 }
 
-func (cache *cachestore) Delete(key string) error {
+func (cache *cachestore) Delete(ctx context.Context, key string) error {
 	delete(cache.cachemap, key)
 	return nil
 }
 
-func (cache *cachestore) Invalidate(options *CacheOptions) error {
+func (cache *cachestore) Invalidate(ctx context.Context, options *CacheOptions) error {
 	cache.cachemap = make(map[string]interface{})
 	return nil
 }
 
-func (cache *cachestore) Clear() error {
+func (cache *cachestore) Clear(ctx context.Context) error {
 	cache.cachemap = make(map[string]interface{})
 	return nil
 }

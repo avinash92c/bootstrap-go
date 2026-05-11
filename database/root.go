@@ -1,6 +1,7 @@
 package database
 
 import (
+	"log"
 	"regexp"
 	"strings"
 	"time"
@@ -8,7 +9,6 @@ import (
 	"github.com/avinash92c/bootstrap-go/foundation"
 	"github.com/avinash92c/bootstrap-go/security"
 	"github.com/jmoiron/sqlx"
-	"github.com/micro/go-micro/v2/logger"
 )
 
 // DB contains Database Driver
@@ -30,7 +30,7 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 		durationval := config.GetConfigX("db.max-timeout", 2000).(string)
 		timeout, err := time.ParseDuration(durationval)
 		if err != nil {
-			logger.Warn("Error Parsing Max-Connection-Timeout Configuration. Using Default 2000ms")
+			log.Println("Error Parsing Max-Connection-Timeout Configuration. Using Default 2000ms")
 			timeout = 2 * time.Second
 		}
 
@@ -40,16 +40,16 @@ func GetConnectionPool(config foundation.ConfigStore) *DB {
 
 		db, err := sqlx.Connect(driver, url)
 		if err != nil {
-			logger.Error("Error Connecting to Database")
+			log.Println("Error Connecting to Database")
 			panic(err)
 		}
 		db.SetMaxIdleConns(maxidle)
 		db.SetMaxOpenConns(maxopen)
 		db.SetConnMaxLifetime(timeout)
-		logger.Info("DB Connection Pool Initialized SuccessFully")
+		log.Println("DB Connection Pool Initialized SuccessFully")
 		return &DB{DB: db, Enabled: true}
 	}
-	logger.Info("Bootstrap DB Connection Pool Disabled SuccessFully")
+	log.Println("Bootstrap DB Connection Pool Disabled SuccessFully")
 	return &DB{DB: nil, Enabled: false}
 }
 
