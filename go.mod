@@ -19,7 +19,7 @@ require (
 	github.com/prometheus/client_golang v1.11.1
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.1
-	golang.org/x/crypto v0.21.0
+	golang.org/x/crypto v0.31.0
 	google.golang.org/grpc v1.56.3
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )
